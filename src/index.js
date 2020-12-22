@@ -8,7 +8,7 @@ import reportWebVitals from './reportWebVitals';
 // Design 
 import './index.css';
 import "antd/dist/antd.css";
-import AppLayout from "./pages/App/AppLayout"
+import App from "./pages/App/Container"
 
 // Data & State Management
 import { RecoilRoot } from 'recoil';
@@ -20,9 +20,9 @@ ReactDOM.render(
       <Router history={hist}>
         <Switch>
           <Route
-            path="/app"
+            path="/"
             render={props => {
-              return <AppLayout {...props} />;
+              return <App {...props} />;
             }}
           />
         </Switch>

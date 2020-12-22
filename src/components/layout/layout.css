@@ -1,0 +1,29 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+
+.section {
+  font-size: 1rem;
+  /* padding: 1rem; */
+  /* border-style: dashed; */
+}
+  
+.App .footer,
+.App .header {
+  flex: 1;
+  height: 100%;
+  width: 100%;
+}
+
+.App .footer {
+  z-index: 1;
+}
+
+.App .content {
+  flex: 20;
+}
+

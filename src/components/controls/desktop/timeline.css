@@ -1,0 +1,27 @@
+.timeline-container {
+    width: 100%;
+    height: 4rem;
+    background-color: lightblue;
+    display: grid;
+    grid-template-columns: minmax(50px, 5%) minmax(50px, 5%) auto;
+    text-align: justify;
+    text-align: center;
+}
+
+.timeline-container > * {
+    margin: auto 0;
+}
+
+.timeline-container button {
+    border: none;
+    border-radius: 50%;
+    height: 3rem;
+    width: 3rem;
+    margin: 0.5rem;
+}
+
+.timeline {
+    background-color: aquamarine;
+    margin: auto 1rem;
+
+}
