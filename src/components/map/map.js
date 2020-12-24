@@ -1,39 +1,51 @@
 import React, { useEffect, useRef, useState } from "react";
-import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
+import mapboxgl from "mapbox-gl";
+import singmap from "data/MP14_PLNG_AREA_WEB_PL.geojson"
+import { 
+  settings, 
+  fetchData, 
+  loadInitialPolygon, 
+  enableMapHover, 
+  enableMapClick 
+} from "./mapHelpers";
 
-const styles = {
-  width: "100%",
-  height: "100%",
-  position: "absolute",
-};
 
-const MapboxGLMap = () => {
+export default function Map() {
+  mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
+
   const [map, setMap] = useState(null);
+  const [mapDat, setMapDat] = useState(singmap)
   const mapContainer = useRef(null);
 
   useEffect(() => {
-    mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
+    fetchData(singmap).then(data => {
+      setMapDat(data)
+    });
+
     const initializeMap = ({ setMap, mapContainer }) => {
       const map = new mapboxgl.Map({
         container: mapContainer.current,
-        style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
-        center: [103.8198, 1.3521],
-        zoom: 11,
-        attributionControl: false
+        ...settings
       });
+  
+      map.on("load", () => {        
+        loadInitialPolygon(map, mapDat);
+          
+        enableMapHover(map, new mapboxgl.Popup({
+          closeButton: false,
+          closeOnClick: false
+        }));
 
-      map.on("load", () => {
+        enableMapClick(map);
+        
         setMap(map);
         map.resize();
       });
     };
 
-
     if (!map) initializeMap({ setMap, mapContainer });
-  }, [map]);
+  }, [map, mapDat]);
 
-  return <div ref={el => (mapContainer.current = el)} style={styles} />;
+  return <div id="map" ref={el => (mapContainer.current = el)}/>;
 };
-
-export default MapboxGLMap;
