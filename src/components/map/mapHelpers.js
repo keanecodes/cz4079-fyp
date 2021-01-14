@@ -1,9 +1,13 @@
 import axios from "axios";
 
 export const settings = {
-  style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
+  style: "mapbox://styles/mapbox/streets-v11",
+  antialias: true, // stylesheet location
   center: [103.8198, 1.3121],
-  zoom: 11,
+  // zoom: 11,
+  zoom: 12,
+  bearing: -20,
+  pitch: 60,
   attributionControl: false
 }
 
@@ -80,5 +84,20 @@ export const enableMapClick = map => {
     );
        
       map.setFilter('mapDat-highlighted', filter);
+  });
+}
+
+export const enable3d = map => {
+  map.addLayer({
+    id: '3d-buildings',
+    source: 'composite',
+    'source-layer': 'building',
+    filter: ['==', 'extrude', 'true'],
+    type: 'fill-extrusion',
+    minzoom: 10,
+    paint: {
+      'fill-extrusion-color': '#ccc',
+      'fill-extrusion-height': ['get', 'height']
+    }
   });
 }
