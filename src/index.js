@@ -7,16 +7,14 @@ import reportWebVitals from './reportWebVitals';
 
 // Design 
 import './index.css';
-import "antd/dist/antd.css";
 import App from "./pages/App/Container"
 
 // Data & State Management
-import { RecoilRoot } from 'recoil';
 const hist = createBrowserHistory();
 
 ReactDOM.render(
   <React.StrictMode>
-    <RecoilRoot>
+    {/* <RecoilRoot> */}
       <Router history={hist}>
         <Switch>
           <Route
@@ -27,7 +25,7 @@ ReactDOM.render(
           />
         </Switch>
       </Router>
-    </RecoilRoot>
+    {/* </RecoilRoot> */}
   </React.StrictMode>,
   document.getElementById('root')
 );

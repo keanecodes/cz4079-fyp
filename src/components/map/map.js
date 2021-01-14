@@ -9,7 +9,7 @@ import {
   enableMapHover, 
   enableMapClick 
 } from "./mapHelpers";
-
+import { renderDeckglLayers } from "./deckgl";
 
 export default function Map() {
   mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
@@ -17,6 +17,7 @@ export default function Map() {
   const [map, setMap] = useState(null);
   const [mapDat, setMapDat] = useState(singmap)
   const mapContainer = useRef(null);
+  
 
   useEffect(() => {
     fetchData(singmap).then(data => {
@@ -38,6 +39,8 @@ export default function Map() {
         }));
 
         enableMapClick(map);
+
+        renderDeckglLayers(map);
         
         setMap(map);
         map.resize();
