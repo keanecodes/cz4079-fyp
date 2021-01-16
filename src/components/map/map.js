@@ -13,7 +13,7 @@ import {
   // eslint-disable-next-line
   enableMapClick,
   enable3d 
-} from "./mapHelpers";
+} from "./mapbox";
 import { renderDeckglLayers } from "./deckgl";
 
 export default function Map() {

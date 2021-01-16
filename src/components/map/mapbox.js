@@ -1,12 +1,12 @@
 import axios from "axios";
 
 export const settings = {
-  style: "mapbox://styles/mapbox/streets-v11",
+  style: "mapbox://styles/mapbox/light-v10",
   antialias: true, // stylesheet location
   center: [103.8198, 1.3121],
   // zoom: 11,
   zoom: 12,
-  bearing: -20,
+  bearing: -10,
   pitch: 60,
   attributionControl: false
 }

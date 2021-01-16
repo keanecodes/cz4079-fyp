@@ -4,10 +4,16 @@
   --blue-icon-select: #1DA1F2;
   --dark-icon-unselect: #8899A6;
   --light-icon-unselect: #657786;
-  --dark-background: #15202B;
+  --blue-highlight: #05BDD9;
+  --grey-unselect: #8D95C8;
+  --dark-background: #111B54;
+  --dark-highlight: #222D6B;
   --light-background: #fff;
   --dark-border: #38444D;
   --light-border: #E6ECF0;
+  --grey-border: #D4D4D4;
+  --control-background-blue: #DCF7FB;
+  --control-text-blue: #078AB1;
   --theme-yellow: #F8B525;
   --theme-blue: #407BFC;
   --theme-red: #E0245E;
@@ -21,10 +27,13 @@
 }
 
 body {
+  background: linear-gradient(#141e30, #243b55);
+  color: white;
   margin: 0;
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
 }
 
 code {
