@@ -1,18 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
-export default function Map3DToggle() {
+export default function Map3DToggle({show3D, handleChange}) {
   const classes = useStyles();
-  const [state, setState] = useState({
-    checkedC: true,
-  });
-  
-  const handleChange = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
-  };
+
   return (
     <div className={classes.root}>
       {"Map View"}
@@ -20,7 +14,7 @@ export default function Map3DToggle() {
         <Grid component="label" container alignItems="center" spacing={1}>
           <Grid item>2D</Grid>
           <Grid item>
-            <AntSwitch checked={state.checkedC} onChange={handleChange} name="checkedC" />
+            <AntSwitch checked={show3D} onChange={handleChange} name="show3D" />
           </Grid>
           <Grid item>3D</Grid>
         </Grid>

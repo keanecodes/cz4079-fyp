@@ -85,8 +85,8 @@ export async function renderDeckglLayers(map) {
     }
 });
 
-  map.addLayer(heatmap);
-  map.addLayer(hexagon);
+  if(!map.getLayer('heat')) map.addLayer(heatmap);
+  if(!map.getLayer('hex'))map.addLayer(hexagon);
 }
 
 function aggregateHexes(data) {

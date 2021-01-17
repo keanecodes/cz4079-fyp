@@ -5,8 +5,9 @@ import Map3DToggle from './Map3DToggle'
 import ProfileMenu from './ProfileMenu'
 import { makeStyles } from '@material-ui/core/styles'
 
-export default function FilterBar() {
+export default function FilterBar({show3D, handleChange}) {
   const classes = useStyles()
+
   return (
     <div className={classes.root}>
         <div className={classes.logo}/>
@@ -15,7 +16,7 @@ export default function FilterBar() {
             <FilterOption name="Bedrooms" control="dropdown"/>
             <FilterOption name="Prices" control="dropdown"/>
             <FilterPopup/>
-            <Map3DToggle/>
+            <Map3DToggle show3D={show3D} handleChange={handleChange}/>
         </div>
         <ProfileMenu/>
     </div>

@@ -1,61 +1,39 @@
 import React, { useEffect, useRef, useState } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "mapbox-gl";
-// eslint-disable-next-line
-import singmap from "data/MP14_PLNG_AREA_WEB_PL.geojson"
 import { 
   settings, 
-  // eslint-disable-next-line
-  fetchData, 
-  // eslint-disable-next-line
-  loadInitialPolygon, 
-  enableMapHover, 
-  // eslint-disable-next-line
-  enableMapClick,
-  enable3d 
+  enable3DToggle
 } from "./mapbox";
-import { renderDeckglLayers } from "./deckgl";
 
-export default function Map() {
+export default function Map({show3D}) {
   mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
-
   const [map, setMap] = useState(null);
-  // const [mapDat, setMapDat] = useState(singmap)
   const mapContainer = useRef(null);
   
 
   useEffect(() => {
-    // fetchData(singmap).then(data => {
-    //   setMapDat(data)
-    // });
-
     const initializeMap = ({ setMap, mapContainer }) => {
       const map = new mapboxgl.Map({
         container: mapContainer.current,
-        ...settings
+        ...settings,
+        zoom: show3D ? 12 : 10.5 ,
+        bearing: show3D ? -10 : 0,
+        pitch: show3D ? 60 : 0,
       });
   
       map.on("load", () => {        
-        // loadInitialPolygon(map, mapDat);
-          
-        enableMapHover(map, new mapboxgl.Popup({
-          closeButton: false,
-          closeOnClick: false
-        }));
-
-        // enableMapClick(map);
-        enable3d(map);
-
-        renderDeckglLayers(map);
-        
         setMap(map);
         map.resize();
       });
     };
 
     if (!map) initializeMap({ setMap, mapContainer });
-  }, [map]);
-  // }, [map, mapDat]);
+
+    if (map) {
+      enable3DToggle(map, show3D);
+    }
+  }, [map, show3D]);
 
   return <div id="map" ref={el => (mapContainer.current = el)}/>;
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import MapboxGLMap from 'components/map/Map'
 import FilterPills from 'components/controls/mobile/FilterPills'
@@ -9,14 +9,22 @@ import { useMediaQuery } from 'react-responsive'
 import { makeStyles } from '@material-ui/core/styles';
 
 export default function App() {
-  const classes = useStyles();
+  const classes = useStyles()
   const isMobile = useMediaQuery({ maxWidth: 767, orientation: "portrait"})
+
+  const [state, setState] = useState({
+    show3D: false,
+  });
+
+  const handleChange = (event) => {
+    setState({ [event.target.name]: event.target.checked });
+  };
 
   return (
     <div className={classes.App}>
-      { !isMobile && <div className="section header"> <FilterBar/> </div>}
+      { !isMobile && <div className="section header"> <FilterBar show3D={state.show3D} handleChange={handleChange} /> </div>}
       <main className="content">
-        <MapboxGLMap/>
+        <MapboxGLMap show3D={state.show3D}/>
         {isMobile && <FilterPills/>}
       </main>
       <footer className="footer" >{ isMobile ? <TabBar/> : <Timeline/> }</footer>
