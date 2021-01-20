@@ -6,7 +6,7 @@ import {
   enable3DToggle
 } from "./mapbox";
 
-export default function Map({show3D}) {
+export default function Map({show3D, data, filterValue}) {
   mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
   const [map, setMap] = useState(null);
   const mapContainer = useRef(null);
@@ -17,9 +17,9 @@ export default function Map({show3D}) {
       const map = new mapboxgl.Map({
         container: mapContainer.current,
         ...settings,
-        zoom: show3D ? 12 : 10.5 ,
-        bearing: show3D ? -10 : 0,
-        pitch: show3D ? 60 : 0,
+        // zoom: show3D ? 12 : 10.5 ,
+        // bearing: show3D ? -10 : 0,
+        // pitch: show3D ? 60 : 0,
       });
   
       map.on("load", () => {        
@@ -31,9 +31,9 @@ export default function Map({show3D}) {
     if (!map) initializeMap({ setMap, mapContainer });
 
     if (map) {
-      enable3DToggle(map, show3D);
+      enable3DToggle(map, show3D, data, filterValue);
     }
-  }, [map, show3D]);
+  }, [map, show3D, data, filterValue]);
 
   return <div id="map" ref={el => (mapContainer.current = el)}/>;
 };

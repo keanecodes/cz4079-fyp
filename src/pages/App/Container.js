@@ -1,20 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import MapboxGLMap from 'components/map/Map'
 import FilterPills from 'components/controls/mobile/FilterPills'
 import FilterBar from 'components/controls/desktop/FilterBar';
-import Timeline from 'components/controls/desktop/Timeline'
+import Timeline, { getTimeRange } from 'components/controls/desktop/Timeline'
 import TabBar from 'components/controls/mobile/TabBar';
 import { useMediaQuery } from 'react-responsive'
 import { makeStyles } from '@material-ui/core/styles';
 
-export default function App() {
+export default function App({data}) {
   const classes = useStyles()
   const isMobile = useMediaQuery({ maxWidth: 767, orientation: "portrait"})
 
   const [state, setState] = useState({
     show3D: false,
   });
+
+  const [filter, setFilter] = useState(null);
+  const timeRange = useMemo(() => getTimeRange(data), [data]);
+  const filterValue = filter || timeRange;
 
   const handleChange = (event) => {
     setState({ [event.target.name]: event.target.checked });
@@ -24,10 +28,12 @@ export default function App() {
     <div className={classes.App}>
       { !isMobile && <div className="section header"> <FilterBar show3D={state.show3D} handleChange={handleChange} /> </div>}
       <main className="content">
-        <MapboxGLMap show3D={state.show3D}/>
+        <MapboxGLMap data={data} filterValue={filterValue} show3D={state.show3D}/>
         {isMobile && <FilterPills/>}
       </main>
-      <footer className="footer" >{ isMobile ? <TabBar/> : <Timeline/> }</footer>
+      <footer className="footer" >
+        { isMobile ? <TabBar/> : (timeRange && (<Timeline data={data} value={filterValue} min={timeRange[0]} max={timeRange[1]} onChange={setFilter}/>)) }
+      </footer>
     </div>
   );
 }
