@@ -16,7 +16,8 @@ export async function renderDeckglLayers(map, data) {
     type: HeatmapLayer,
     data: data,
     getPosition: d => [d.longitude, d.latitude],
-    getWeight: d => d.resale_price,
+    // getWeight: d => d.resale_price,
+    getWeight: d => d.magnitude,
     radiusPixels: 60,
   });
 
@@ -25,8 +26,9 @@ export async function renderDeckglLayers(map, data) {
     type: HexagonLayer,
     data: data,
     getPosition: d => [d.longitude, d.latitude],
-    getElevationWeight: d => d.resale_price,
-    elevationScale: 80,
+    // getElevationWeight: d => d.resale_price,
+    getElevationWeight: d => d.magnitude,
+    elevationScale: 10,
     extruded: true,
     radius: 509,         
     opacity: 0.6,        
@@ -68,24 +70,19 @@ function getFirstLabelLayerId(style) {
 // }
 
 export function addScatterTimeline(data, map, filterValue) {
-
-  const dataFilter = new DataFilterExtension({
-    filterSize: 1,
-    // Enable for higher precision, e.g. 1 second granularity
-    // See DataFilterExtension documentation for how to pick precision
-    fp64: false
-  });
-  console.log(data)
+  // console.log(data)
   const scatter = new MapboxLayer({
     id: 'scatter',
     type: ScatterplotLayer,
     data: data,
     opacity: 0.8,
-    radiusScale: 100,
+    radiusScale: 6,
     radiusMinPixels: 1,
+    radiusMaxPixels: 100,
     wrapLongitude: true,
   
-    getPosition: d => [d.longitude, d.latitude, -d.depth * 1000],
+    // getPosition: d => [d.longitude, d.latitude, -d.depth * 1000],
+    getPosition: d => [d.longitude, d.latitude, d.depth],
     getRadius: d => Math.pow(2, d.magnitude),
     getFillColor: d => {
       const r = Math.sqrt(Math.max(d.depth, 0));
@@ -98,7 +95,7 @@ export function addScatterTimeline(data, map, filterValue) {
       filterValue[0] * 0.9 + filterValue[1] * 0.1,
       filterValue[0] * 0.1 + filterValue[1] * 0.9
     ],
-    extensions: [dataFilter],
+    extensions: [new DataFilterExtension({filterSize: 1, fp64: false})],
     pickable: true
   });
 

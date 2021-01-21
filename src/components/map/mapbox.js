@@ -1,7 +1,7 @@
 import axios from "axios";
 import { renderDeckglLayers, addScatterTimeline } from "./deckgl";
-// import mapboxgl from "mapbox-gl";
-// import singmap from "data/MP14_PLNG_AREA_WEB_PL.geojson"
+import mapboxgl from "mapbox-gl";
+import singmap from "data/MP14_PLNG_AREA_WEB_PL.geojson"
 
 export const settings = {
   style: "mapbox://styles/mapbox/light-v10",
@@ -119,6 +119,7 @@ export const enable3DToggle = (map, show3D, data, filterValue) => {
     if (map.getLayer('mapDat-highlighted')) map.removeLayer('mapDat-highlighted');
     if (map.getSource('mapDat')) map.removeSource('mapDat');
     if (map.getLayer('heat')) map.removeLayer('heat');
+    if (map.getLayer('scatter')) map.removeLayer('scatter');
 
     renderDeckglLayers(map, data);
     enable3d(map);
@@ -137,26 +138,26 @@ export const enable3DToggle = (map, show3D, data, filterValue) => {
     if (map.getLayer('hex')) map.removeLayer('hex');
     if (map.getLayer('heat')) map.removeLayer('heat');
 
-    // fetchData(singmap).then(data => {
-      // loadInitialPolygon(map, data);
-      // enableMapClick(map);
+    fetchData(singmap).then(data => {
+      loadInitialPolygon(map, data);
+      enableMapClick(map);
       
       // const classes = useStyles();
-      // enableMapHover(map, new mapboxgl.Popup({
-      //   closeButton: false,
-      //   closeOnClick: false,
-      // }));
+      enableMapHover(map, new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false,
+      }));
       
-    // });
-    addScatterTimeline(data, map, filterValue);
+    });
+    data && addScatterTimeline(data, map, filterValue);
     
     map.flyTo({
       // These options control the ending camera position: centered at
       // the target, at zoom level 9, and north up.
-      // center: [103.8198, 1.3121],
+      center: [103.8198, 1.3121],
+      zoom: 10.5,
+      // center: [-120, 36.5],
       // zoom: 5.5,
-      center: [-120, 36.5],
-      zoom: 5.5,
       bearing: 0,
       pitch: 0,
       
