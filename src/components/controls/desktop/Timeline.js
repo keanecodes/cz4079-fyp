@@ -13,6 +13,7 @@ export default function Timeline({min, max, value, onChange}) {
   const [animation] = useState({});
 
   const MS_PER_DAY = 8.64e7;
+  const ANIMATION_SPEED = 30;
   
   // prettier-ignore
   useEffect(() => {
@@ -21,7 +22,7 @@ export default function Timeline({min, max, value, onChange}) {
 
   if (isPlaying && !animation.id) {
     const span = value[1] - value[0];
-    let nextValueMin = value[0] + MS_PER_DAY;
+    let nextValueMin = value[0] + (MS_PER_DAY * ANIMATION_SPEED);
     if (nextValueMin + span >= max) {
       nextValueMin = min;
     }
@@ -212,7 +213,8 @@ export function getTimeRange(data) {
   if (!data) {
     return null;
   }
-  return data.reduce(
+  // console.log(data)
+  return data?.reduce(
     (range, d) => {
       const t = d.timestamp;
       range[0] = Math.min(range[0], t);

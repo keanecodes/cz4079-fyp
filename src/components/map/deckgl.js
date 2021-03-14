@@ -74,19 +74,20 @@ export function addScatterTimeline(data, map, filterValue) {
   const scatter = new MapboxLayer({
     id: 'scatter',
     type: ScatterplotLayer,
-    data: data,
+    data,
     opacity: 0.8,
     radiusScale: 6,
     radiusMinPixels: 1,
     radiusMaxPixels: 100,
-    wrapLongitude: true,
+    wrapLongitude: false,
   
     // getPosition: d => [d.longitude, d.latitude, -d.depth * 1000],
-    getPosition: d => [d.longitude, d.latitude, d.depth],
+    getPosition: d => [d.longitude, d.latitude],
     getRadius: d => Math.pow(2, d.magnitude),
     getFillColor: d => {
       const r = Math.sqrt(Math.max(d.depth, 0));
-      return [255 - r * 15, r * 5, r * 10];
+      // return [255 - r * 15, r * 5, r * 10];
+      return [255 - r * 0.3, r * 0.18, r * 0.8];
     },
   
     getFilterValue: d => d.timestamp,

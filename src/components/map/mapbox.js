@@ -1,6 +1,6 @@
 import axios from "axios";
 import { renderDeckglLayers, addScatterTimeline } from "./deckgl";
-import mapboxgl from "mapbox-gl";
+// import mapboxgl from "mapbox-gl";
 import singmap from "data/MP14_PLNG_AREA_WEB_PL.geojson"
 
 export const settings = {
@@ -39,8 +39,8 @@ export const loadInitialPolygon = (map, mapDat) => {
       'source': 'mapDat',
       'layout': {},
       'paint': {
-        'fill-color': '#088',
-        "fill-outline-color": "#fff",
+        'fill-color': 'rgba(255,255,255,1)',
+        "fill-outline-color": "#05BDD9",
         'fill-opacity': 0.8
       }
     },'settlement-label');
