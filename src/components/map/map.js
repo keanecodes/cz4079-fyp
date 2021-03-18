@@ -1,22 +1,16 @@
-// import React, { useEffect, useRef, useState } from "react";
-import React from "react";
+////////// DEPENDENCIES //////////
+import React, { useRef, useState, useCallback } from "react";
 import DeckGL from '@deck.gl/react';
-import {StaticMap} from 'react-map-gl';
-import {DataFilterExtension} from '@deck.gl/extensions';
+import { StaticMap } from 'react-map-gl';
+import { DataFilterExtension } from '@deck.gl/extensions';
 import { ScatterplotLayer } from '@deck.gl/layers';
-
+import { MapboxLayer } from "@deck.gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
-// import mapboxgl from "mapbox-gl";
-// import { 
-//   settings, 
-//   enable3DToggle
-// } from "./mapbox";
 
+//////////! DATA !//////////
+import MAP_STYLE from "positron.json";
 
 const INITIAL_VIEW_STATE = {
-  // latitude: 36.5,
-  // longitude: -120,
-  // zoom: 5.5,
   latitude: 1.3121,
   longitude: 103.8198,
   zoom: 11,
@@ -36,38 +30,42 @@ function getTooltip({object}) {
   );
 }
 
-const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/positron-nolabels-gl-style/style.json';
-
 const dataFilter = new DataFilterExtension({
   filterSize: 1,
   fp64: false
 })
 
 export default function Map({show3D, data, filterValue, mapStyle = MAP_STYLE}) {
-  // mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
-  // const [map, setMap] = useState(null);
-  // const mapContainer = useRef(null);
+  const [glContext, setGLContext] = useState();
+  const deckRef = useRef(null);
+  const mapRef = useRef(null);
+
+  const onMapLoad = useCallback(() => {
+    const map = mapRef.current.getMap();
+    const deck = deckRef.current.deck;
+
+    //! Initialize an empty deck.gl layer to prevent flashing
+    map.addLayer(
+      new MapboxLayer({ id: "resaletimeline", deck }), // This id has to match the id of the deck.gl layer
+      'place_suburbs' // Optionally define id from Mapbox layer stack under which to add deck layer
+    );
+  }, []);
   
-  const layers = [
+  const layers = glContext ? [
     data &&
       new ScatterplotLayer({
-        id: 'earthquakes',
+        id: 'resaletimeline',
         data,
         opacity: 0.3,
         radiusScale: 0.6,
         radiusMinPixels: 1,
         wrapLongitude: true,
-
-        // getPosition: d => [d.longitude, d.latitude, -d.depth * 1000],
-        // getRadius: d => Math.pow(2, d.floor_area_sqm),
-        getPosition: d => [d.longitude, d.latitude],
-        getRadius: d => d.floor_area_sqm,
+        getPosition: d => [d.longitude, d.latitude], // getPosition: d => [d.longitude, d.latitude, -d.depth * 1000],
+        getRadius: d => d.floor_area_sqm, // getRadius: d => Math.pow(2, d.floor_area_sqm),
         getFillColor: d => {
           const r = Math.sqrt(Math.max(d.resale_price, 0));
-          return [255 - r * 0.3, r * 0.18, r * 0.8];
-          // return [255, 0, 0];
+          return [255 - r * 0.3, r * 0.18, r * 0.8]; // return [255, 0, 0];
         },
-
         getFilterValue: d => d.timestamp,
         filterRange: [filterValue[0], filterValue[1]],
         filterSoftRange: [
@@ -75,48 +73,31 @@ export default function Map({show3D, data, filterValue, mapStyle = MAP_STYLE}) {
           filterValue[0] * 0.1 + filterValue[1] * 0.9
         ],
         extensions: [dataFilter],
-
         pickable: true
       })
-  ];
+  ] : [];
 
-  // useEffect(() => {
-    // const initializeMap = ({ setMap, mapContainer }) => {
-    //   const map = new mapboxgl.Map({
-    //     container: mapContainer.current,
-    //     ...settings,
-    //     zoom: show3D ? 12 : 10.5 ,
-    //     bearing: show3D ? -10 : 0,
-    //     pitch: show3D ? 60 : 0,
-    //   });
-  
-    //   map.on("load", () => {        
-    //     setMap(map);
-    //     map.resize();
-    //   });
-    // };
-
-    // if (!map) initializeMap({ setMap, mapContainer });
-
-    // if (map) {
-    //   enable3DToggle(map, show3D, data, filterValue);
-    // }
-  // }, [map, show3D, data, filterValue]);
-
-  // return <div id="map" ref={el => (mapContainer.current = el)}/>;
   return (
     <DeckGL
+      ref={deckRef}
+      onWebGLInitialized={setGLContext}
       layers={layers}
       initialViewState={INITIAL_VIEW_STATE}
       controller={true}
       getTooltip={getTooltip}
+      glOptions={{ stencil: true }} /* To render vector tile polygons correctly */
     >
-      <StaticMap 
-        reuseMaps 
-        mapStyle={mapStyle} 
-        preventStyleDiffing={true} 
-        mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
-      />
+      {glContext && (
+        <StaticMap 
+          ref={mapRef}
+          gl={glContext}
+          mapStyle={mapStyle} 
+          preventStyleDiffing={true} 
+          attributionControl={false}
+          mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+          onLoad={onMapLoad}
+        />
+      )}
     </DeckGL>
 );
 };
