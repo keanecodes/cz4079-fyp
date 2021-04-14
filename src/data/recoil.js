@@ -1,5 +1,11 @@
 import { atom } from 'recoil'
 
+export const resaleData = atom({
+  key: 'resaleData',
+  default: null
+})
+
+
 export const modalControls = atom({
   key: 'modalControls',
   default: {

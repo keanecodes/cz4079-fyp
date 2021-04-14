@@ -1,49 +1,28 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { render } from 'react-dom';
 import MapboxGLMap from 'layouts/common/Map'
-
 import FilterPills from 'layouts/mobile/FilterPills'
 import FilterBar from 'layouts/desktop/FilterBar';
 import Timeline, { getTimeRange } from 'layouts/desktop/Timeline'
 import TabBar from 'layouts/mobile/TabBar';
 import { useMediaQuery } from 'react-responsive'
 import { makeStyles } from '@material-ui/core/styles';
-import resales from 'data/resale1990_2020onwards.csv'
-// import { layerData } from 'data/recoil/layers'
-// import { useRecoilState } from 'recoil'
-import { RecoilRoot } from 'recoil'
-
-
-const DATA_URL = resales
+import { useSetRecoilState } from 'recoil';
+import { resaleData } from 'data/recoil'
 
 export default function App({data}) {
   const classes = useStyles()
   const isMobile = useMediaQuery({ maxWidth: 767, orientation: "portrait"})
+  const setData = useSetRecoilState(resaleData)
+  setData(data)
 
   const [state, setState] = useState({
     show3D: false,
-    // data: null
   });
 
   const [filter, setFilter] = useState(null)
-  // const [ data, setLayerData] = useRecoilState(layerData)
   
   useEffect(() => {
-    require('d3-request').csv(DATA_URL, (error, response) => {
-      if (!error) {
-        const data = response.map(row => ({
-          timestamp: new Date(`${row.month}`).getTime(),
-          latitude: Number(row.latitude),
-          longitude: Number(row.longitude),
-          resale_price: Number(row.resale_price),
-          floor_area_sqm: Number(row.floor_area_sqm)
-        }));
-        // setState(s => ({...s, data}))
-        
-        render(<RecoilRoot><App data={data} /></RecoilRoot>, document.getElementById('root'));
-        // setLayerData(layerData)
-      }
-    });
+
   }, [state])
 
   const timeRange = useMemo(() =>  getTimeRange(data), [data]);
