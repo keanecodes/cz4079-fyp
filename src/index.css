@@ -2,6 +2,7 @@
 
 :root {
   --blue-icon-select: #1DA1F2;
+  --black-txt: #273246;
   --dark-icon-unselect: #8899A6;
   --light-icon-unselect: #657786;
   --blue-highlight: #05BDD9;
@@ -39,6 +40,33 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+button {
+  user-select: none;
+  display: inline;
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+  text-decoration: none;
+  position: relative;
+  font-style: normal;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+  color: inherit;
+  background: transparent;
+  line-height: 1;
+  transition: all 0.12s ease-in;
+  -webkit-appearance: button;
+  border-radius: 2px;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 0 1rem;
+  min-height: 2.4rem;
+  font-weight: 500;
+  font-size: 0.85rem;
 }
 
 #root{

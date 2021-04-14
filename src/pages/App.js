@@ -1,16 +1,17 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { render } from 'react-dom';
-import MapboxGLMap from 'components/map/Map'
+import MapboxGLMap from 'layouts/common/Map'
 
-import FilterPills from 'components/controls/mobile/FilterPills'
-import FilterBar from 'components/controls/desktop/FilterBar';
-import Timeline, { getTimeRange } from 'components/controls/desktop/Timeline'
-import TabBar from 'components/controls/mobile/TabBar';
+import FilterPills from 'layouts/mobile/FilterPills'
+import FilterBar from 'layouts/desktop/FilterBar';
+import Timeline, { getTimeRange } from 'layouts/desktop/Timeline'
+import TabBar from 'layouts/mobile/TabBar';
 import { useMediaQuery } from 'react-responsive'
 import { makeStyles } from '@material-ui/core/styles';
 import resales from 'data/resale1990_2020onwards.csv'
 // import { layerData } from 'data/recoil/layers'
 // import { useRecoilState } from 'recoil'
+import { RecoilRoot } from 'recoil'
 
 
 const DATA_URL = resales
@@ -39,7 +40,7 @@ export default function App({data}) {
         }));
         // setState(s => ({...s, data}))
         
-        render(<App data={data} />, document.getElementById('root'));
+        render(<RecoilRoot><App data={data} /></RecoilRoot>, document.getElementById('root'));
         // setLayerData(layerData)
       }
     });

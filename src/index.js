@@ -1,14 +1,13 @@
 // Framework
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, Switch } from "react-router-dom";
+import { Router, Route, Switch, Redirect } from "react-router-dom";
 import { createBrowserHistory } from "history";
-// import { RecoilRoot } from "recoil"
-import reportWebVitals from './reportWebVitals';
+// import { RecoilRoot } from 'recoil'
 
 // Design 
 import './index.css';
-import App from "./pages/App/App"
+import App from "./pages/App"
 
 // Data & State Management
 const hist = createBrowserHistory();
@@ -24,6 +23,7 @@ ReactDOM.render(
               return <App {...props}/>;
             }}
           />
+          <Route render={() => <Redirect to="/" />} />
         </Switch>
       </Router>
     // </RecoilRoot> 
@@ -31,12 +31,3 @@ ReactDOM.render(
   // <App />
   ,document.getElementById('root')
 );
-
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
-
-
-

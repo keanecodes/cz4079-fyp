@@ -1,7 +1,7 @@
 import React from 'react'
 import FilterOption from './FilterOption'
-import FilterPopup from './FilterPopup'
-import Map3DToggle from './Map3DToggle'
+import FilterModal from './FilterModal'
+import Map3DToggle from './Filter3DToggle'
 import ProfileMenu from './ProfileMenu'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -15,7 +15,7 @@ export default function FilterBar({show3D, handleChange}) {
             <FilterOption name="Property" control="dropdown"/>
             <FilterOption name="Bedrooms" control="dropdown"/>
             <FilterOption name="Prices" control="dropdown"/>
-            <FilterPopup/>
+            <FilterModal/>
             <Map3DToggle show3D={show3D} handleChange={handleChange}/>
         </div>
         <ProfileMenu/>
