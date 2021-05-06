@@ -6,8 +6,12 @@ import IOSSlider from 'components/Slider';
 import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/IconButton';
 import { MdPlayArrow, MdPause } from "react-icons/md";
+import { useSetRecoilState } from 'recoil';
+import { UITxtLoading } from 'data/recoil';
 
 export default function Timeline({min, max, value, onChange}) {
+  const setTxtLoading = useSetRecoilState(UITxtLoading)
+  setTxtLoading("Loading Timeline...")
   const classes = useStyles();
   const [isPlaying, setIsPlaying] = useState(false);
   const [animation] = useState({});

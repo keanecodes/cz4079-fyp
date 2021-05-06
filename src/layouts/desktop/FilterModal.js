@@ -11,13 +11,10 @@ export default function FilterModal() {
   const classes = useStyles()
   const [open, setOpen] = React.useState(false)
 
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
-
   return (
     <>
       <Button 
-        onClick={handleOpen}
+        onClick={() => setOpen(true)}
         startIcon={<FiMenu className={classes.icon} />}
         className={classes.button}
         disableRipple> 
@@ -28,7 +25,7 @@ export default function FilterModal() {
         aria-describedby="transition-modal-description"
         className={classes.modal}
         open={open}
-        onClose={handleClose}
+        onClose={() => setOpen(false)}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
@@ -41,14 +38,14 @@ export default function FilterModal() {
             <div className="modal-filter-cols">
               <FilterGroup title="Filter Attributes" group="attributes"/>
               <div>
-                <FilterGroup title="Layers" group="layers"/>
+                <FilterGroup title="Layers" group="layers" closePanel={() => setOpen(false)}/>
                 <FilterGroup title="Panels" group="panels"/>
               </div>
             </div>
             <div className="modal-filter-footer">
               <div>
                 <button>Reset</button>
-                <button onClick={handleClose}>Done</button>
+                <button onClick={() => setOpen(false)}>Done</button>
               </div>
             </div>
           </div>

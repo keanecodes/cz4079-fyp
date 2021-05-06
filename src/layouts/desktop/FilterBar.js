@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import FilterOption from './FilterOption'
 import FilterModal from './FilterModal'
 import Map3DToggle from './Filter3DToggle'
-import ProfileMenu from './ProfileMenu'
+// eslint-disable-next-line
+// import ProfileMenu from './ProfileMenu'
 import { makeStyles } from '@material-ui/core/styles'
 
-export default function FilterBar({show3D, handleChange}) {
+export default function FilterBar() {
   const classes = useStyles()
+  const [show3D, set3D] = useState(false);
+  
+  const handleChange = e => set3D(e.target.checked)
 
   return (
     <div className={classes.root}>
@@ -18,7 +22,7 @@ export default function FilterBar({show3D, handleChange}) {
             <FilterModal/>
             <Map3DToggle show3D={show3D} handleChange={handleChange}/>
         </div>
-        <ProfileMenu/>
+        {/* <ProfileMenu/> */}
     </div>
   )
 }
