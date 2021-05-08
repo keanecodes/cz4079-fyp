@@ -63,9 +63,9 @@ export default function TabDrawer({
       ...styleTrigger
     }
   }))
+  
   const classes = useStyles()
 
-  console.log(styleSeparator)
   return (
     <>
       <Drawer
