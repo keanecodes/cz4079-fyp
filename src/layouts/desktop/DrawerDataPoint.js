@@ -1,94 +1,54 @@
 import React from 'react'
-import Drawer from '@material-ui/core/Drawer'
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles'
+import TabDrawer from 'components/TabDrawer'
 
 export default function DrawerDataPoint() {
-  const classes = useStyles()
-
-  const [open, setOpen] = React.useState(true)
-
-  const toggleDrawerOpen = () => setOpen(!open)
 
   return (
     <>
-      <Drawer
-        className={classes.drawer}
-        variant="persistent"
-        open={open}
-        classes={{
-          paper: classes.drawerPaper,
-        }}
+      <TabDrawer
+        width='20vw'
+        triggerTagLocation='start'
+        triggerName='Data Points'
+        triggerHeight= '2rem'
+        triggerWidth='50%'
+        styleSeparator={style.separator}
+        styleTrigger={style.trigger}
       >
-        <div className={classes.drawerContainer}>
-          <span className={classes.separator}></span>
-          <div 
-            onClick={toggleDrawerOpen}
-            className={classes.drawerTrigger}
-          >
-            [{`${open ? 'Hide': 'Show'}`}] Data Points
-          </div>
-          <div className={classes.sortBar}>
-            <p className='sortBar__title'>SORT BY</p>
-            <div className='sortBar__option'>
-              A to Z
-              <span className={classes.arrow}>&#62;</span>
-            </div>
-          </div>
-        </div>
-        
-      </Drawer>
+        <SortBar/>
+      </TabDrawer>
     </>
   )
 }
 
-const drawerWidth = `20vw`
+const SortBar = () => {
+  const classes = useStyles()
+  return (
+    <div className={classes.sortBar}>
+      <p className='sortBar__title'>SORT BY</p>
+      <div className='sortBar__option'>
+        A to Z
+        <span className={classes.arrow}>&#62;</span>
+      </div>
+    </div>
+  )
+}
 
-const useStyles = makeStyles(() => ({
-  drawer: {
-    width: drawerWidth,
-    marginTop: '2rem',
-    flexShrink: 0,
-    zIndex: 1,
-  },
-  drawerPaper: {
-    top: '4rem',
-    width: drawerWidth,
-    height: `calc(100% - 8rem)`,
-    padding: '1rem',
-    overflowY: 'visible',
-    background: 'var(--dark-background)',
-    color: 'white'
-  },
-  drawerContainer: {
-    overflow: 'visible',
+const style = {
+  trigger: {
+    transform: 'rotate(90deg)',
+    right: '-12.5rem',
+    top: 'calc(10rem)', //TODO: find heuristic calculation 
+    marginTop: '-1rem',
   },
   separator: {
     width: 'calc(100% + 2rem)',
-    marginLeft: '-1rem',
-    marginTop: '-1rem',
-    height: '0.3rem',
-    background: 'var(--blue-highlight)',
-    display:'block',
-    zIndex: 10,
-  },
-  drawerTrigger: {
-    position: 'relative',
-    transformOrigin: 'right',
-    transform: 'rotate(90deg)',
-    right: '-11.5rem',
-    top: 'calc(10rem)', //TODO: find heuristic calculation 
-    height: '2rem',
-    width: '55%',
-    cursor: 'pointer',
-    userSelect: 'none',
-    visibility: 'visible',
-    background: 'var(--dark-highlight)',
-    color: 'white',
-    textAlign: 'center',
-    borderRadius: '0.3rem 0.3rem 0 0',
-  },
+  }
+}
+
+const useStyles = makeStyles(() => ({
   sortBar: {
-    marginTop: '-2rem',
+    marginTop: '-1rem',
     '& .sortBar__title': {
       fontSize: '12.8px',
       fontSpacing: '0.75px',
