@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 export default function DrawerStatistics() {
   const classes = useStyles()
 
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = React.useState(true)
 
   const toggleDrawerOpen = () => setOpen(!open)
 
@@ -21,13 +21,13 @@ export default function DrawerStatistics() {
         anchor="right"
       >
         <div className={classes.drawerContainer}>
-          
-        </div>
-        <div 
-          onClick={toggleDrawerOpen}
-          className={classes.drawerTrigger}
-        >
-          Area Statistics [{`${open ? 'Hide': 'Show'}`}] 
+          <span className={classes.separator}></span>
+          <div 
+            onClick={toggleDrawerOpen}
+            className={classes.drawerTrigger}
+          >
+            Area Statistics [{`${open ? 'Hide': 'Show'}`}] 
+          </div>
         </div>
       </Drawer>
     </>
@@ -53,14 +53,21 @@ const useStyles = makeStyles(() => ({
     background: 'var(--dark-background)',
   },
   drawerContainer: {
-    overflow: 'auto',
+    overflow: 'visible',
+  },
+  separator: {
+    width: '100%',
+    height: '0.3rem',
+    background: 'var(--blue-highlight)',
+    display:'block',
+    zIndex: 10,
   },
   drawerTrigger: {
     position: 'relative',
     transformOrigin: 'right',
     transform: 'rotate(270deg)',
     right: `calc(100% - ${triggerWidth} + ${triggerHeight} - 1rem)`,
-    top: 'calc(-1rem)',
+    top: 'calc(-1.5rem)',
     height: triggerHeight,
     width: triggerWidth,
     cursor: 'pointer',
