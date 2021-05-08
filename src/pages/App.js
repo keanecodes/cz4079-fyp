@@ -4,6 +4,8 @@ import FilterPills from 'layouts/mobile/FilterPills'
 import FilterBar from 'layouts/desktop/FilterBar';
 import Timeline, { getTimeRange } from 'layouts/desktop/Timeline'
 import TabBar from 'layouts/mobile/TabBar';
+import DrawerDataPoint from 'layouts/desktop/DrawerDataPoint';
+import DrawerStatistics from 'layouts/desktop/DrawerStatistics';
 import { useMediaQuery } from 'react-responsive'
 import { makeStyles } from '@material-ui/core/styles';
 import { useSetRecoilState, useRecoilValue } from 'recoil';
@@ -26,7 +28,12 @@ export default function App() {
     <>
       {data && (
         <div className={classes.App}>
-          { !isMobile && <div className="section header"> <FilterBar /> </div>}
+          { !isMobile && <>
+            <div className="section header"> <FilterBar /> </div>
+            <DrawerDataPoint/>
+            <DrawerStatistics/>
+            </>
+          }
           <main className="content">
             <MapboxGLMap filterValue={filterValue}/>
             {isMobile && <FilterPills/>}
@@ -59,9 +66,9 @@ const useStyles = makeStyles(() => ({
       height: '100%',
       width: '100%',
       background: 'var(--dark-background)',
-      zIndex: 1,
+      zIndex: 2,
     },
-    '& .footer': { zIndex: 1, },
+    '& .footer': { zIndex: 2, },
     '& .content': { flex: 20, },
   }
 }));

@@ -39,7 +39,6 @@ export default function FilterModal() {
               <FilterGroup title="Filter Attributes" group="attributes"/>
               <div>
                 <FilterGroup title="Layers" group="layers" closePanel={() => setOpen(false)}/>
-                <FilterGroup title="Panels" group="panels"/>
               </div>
             </div>
             <div className="modal-filter-footer">

@@ -2,14 +2,16 @@ import React, { useRef, useState, useCallback } from "react";
 import DeckGL from '@deck.gl/react';
 import { StaticMap } from 'react-map-gl';
 import { DataFilterExtension } from '@deck.gl/extensions';
-import { ScatterplotLayer, GeoJsonLayer } from '@deck.gl/layers';
+// import { ScatterplotLayer, GeoJsonLayer } from '@deck.gl/layers';
+import { ScatterplotLayer } from '@deck.gl/layers';
 import { HeatmapLayer, HexagonLayer } from '@deck.gl/aggregation-layers';
 import { MapboxLayer } from "@deck.gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 import MAP_STYLE from "positron.json";
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { layerSelection, overlaySelection, resaleData, borderData, DEFAULT_LAYER, UILoading, UITxtLoading} from 'data/recoil'
+// import { layerSelection, overlaySelection, resaleData, borderData, DEFAULT_LAYER, UILoading, UITxtLoading} from 'data/recoil'
+import { layerSelection, resaleData, DEFAULT_LAYER, UILoading, UITxtLoading} from 'data/recoil'
 
 const INITIAL_VIEW_STATE = {
   latitude: 1.3451,
@@ -45,9 +47,9 @@ export default function Map({show3D, filterValue, mapStyle = MAP_STYLE}) {
   const deckRef = useRef(null);
   const mapRef = useRef(null);
   const data = useRecoilValue(resaleData)
-  const border = useRecoilValue(borderData)
+  // const border = useRecoilValue(borderData)
   const layerSel = useRecoilValue(layerSelection)
-  const overlaySel = useRecoilValue(overlaySelection)
+  // const overlaySel = useRecoilValue(overlaySelection)
   const [prevLayer, setPrevLayer] = useState(DEFAULT_LAYER)
 
   const onMapLoad = useCallback(() => {
@@ -62,6 +64,7 @@ export default function Map({show3D, filterValue, mapStyle = MAP_STYLE}) {
       new MapboxLayer({ id: `resaletimeline${prevLayer}`, deck }), // This id has to match the id of the deck.gl layer
       'place_suburbs' // Optionally define id from Mapbox layer stack under which to add deck layer
     );
+    // eslint-disable-next-line
   }, [layerSel, setLoading, setTxtLoading]);
 
   const commonAttributes = {

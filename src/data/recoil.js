@@ -35,12 +35,6 @@ export const modalControls = atom({
       checkbox: {
         'Region Border Layer (2D Only)': false,
       }
-    },
-    panels: {
-      checkbox: {
-        'Data Points List (Left)': false,
-        'Statistics Panel (Right)': false
-      }
     }
   }
 })
