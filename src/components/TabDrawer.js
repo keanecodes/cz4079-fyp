@@ -3,6 +3,7 @@ import Drawer from '@material-ui/core/Drawer'
 import { makeStyles } from '@material-ui/core/styles'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { layerSelection } from 'data/recoil'
+import { selectedGeojsonArea } from 'data/recoil'
 
 export default function TabDrawer({
   state,
@@ -17,7 +18,8 @@ export default function TabDrawer({
   children
 }) {
   const layerSelected = useRecoilValue(layerSelection)
-  const fullHeight = layerSelected !== 'hex' 
+  const selectedArea = useRecoilValue(selectedGeojsonArea)
+  const fullHeight = layerSelected !== 'hex' && !selectedArea
 
   const useStyles = makeStyles(() => ({
     drawer: {

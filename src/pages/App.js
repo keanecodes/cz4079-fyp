@@ -46,7 +46,7 @@ export default function App() {
             <MapboxGLMap filterValue={filterValue}/>
             {isMobile && <FilterPills/>}
           </main>
-          {layerSelected !== 'hex' && 
+          {layerSelected !== 'hex' && !selectedArea &&
             <footer className="footer" >
               { isMobile ? <TabBar/> : (timeRange && 
                 <Timeline 

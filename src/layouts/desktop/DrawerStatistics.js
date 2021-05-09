@@ -7,12 +7,10 @@ import { makeStyles } from '@material-ui/core'
 import { mapData } from 'data/recoil'
 import { Line } from "react-chartjs-2"
 import _ from "lodash"
-import { mapOriginalData } from 'data/recoil'
 
 export default function DrawerStatistics() {
   const classes = useStyles()
   const selectedArea = useRecoilValue(selectedGeojsonArea)
-  const originalData = useRecoilValue(mapOriginalData)
   const data = useRecoilValue(mapData)
   
   // get room count
@@ -25,7 +23,7 @@ export default function DrawerStatistics() {
   const growth = {}
   _.range(1990, 2023, 3).map(y => growth[y] = 0)
   _.range(1990, 2023, 3).map(y => 
-    originalData
+    data
       .filter(d => d.town === selectedArea?.PLN_AREA_N)
       .filter(d => new Date(d.timestamp).getFullYear() === y)
       .map(d => growth[y] += d.resale_price)
@@ -93,10 +91,10 @@ export default function DrawerStatistics() {
                 <sup>2</sup>
               </p>
             </div>
-            <div>
+            {/* <div>
               <small>PRICE RANK</small>
               <p><strong>0</strong>/52</p>
-            </div>
+            </div> */}
           </div>
           {data.length > 0 
           ? <>
