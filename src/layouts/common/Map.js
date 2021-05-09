@@ -2,16 +2,16 @@ import React, { useRef, useState, useCallback } from "react";
 import DeckGL from '@deck.gl/react';
 import { StaticMap } from 'react-map-gl';
 import { DataFilterExtension } from '@deck.gl/extensions';
-// import { ScatterplotLayer, GeoJsonLayer } from '@deck.gl/layers';
-import { ScatterplotLayer } from '@deck.gl/layers';
+import { ScatterplotLayer, GeoJsonLayer } from '@deck.gl/layers';
+// import { ScatterplotLayer } from '@deck.gl/layers';
 import { HeatmapLayer, HexagonLayer } from '@deck.gl/aggregation-layers';
 import { MapboxLayer } from "@deck.gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 import MAP_STYLE from "positron.json";
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-// import { layerSelection, overlaySelection, mapOriginalData, borderData, DEFAULT_LAYER, UILoading, UITxtLoading} from 'data/recoil'
-import { layerSelection, mapData, DEFAULT_LAYER, UILoading, UITxtLoading} from 'data/recoil'
+import { layerSelection, overlaySelection, mapData, borderData, DEFAULT_LAYER, UILoading, UITxtLoading} from 'data/recoil'
+// import { layerSelection, mapData, DEFAULT_LAYER, UILoading, UITxtLoading} from 'data/recoil'
 
 const INITIAL_VIEW_STATE = {
   latitude: 1.3451,
@@ -47,9 +47,9 @@ export default function Map({show3D, filterValue, mapStyle = MAP_STYLE}) {
   const deckRef = useRef(null);
   const mapRef = useRef(null);
   const data = useRecoilValue(mapData)
-  // const border = useRecoilValue(borderData)
+  const border = useRecoilValue(borderData)
   const layerSel = useRecoilValue(layerSelection)
-  // const overlaySel = useRecoilValue(overlaySelection)
+  const overlaySel = useRecoilValue(overlaySelection)
   const [prevLayer, setPrevLayer] = useState(DEFAULT_LAYER)
 
   const onMapLoad = useCallback(() => {
@@ -130,34 +130,27 @@ export default function Map({show3D, filterValue, mapStyle = MAP_STYLE}) {
   }
 
   setTxtLoading("80%")
-
-  // console.log(border)
   
   const layers = glContext ? [
     data && 
-    // border &&
       layerSel === 'scatter' 
       ? new ScatterplotLayer(layerAttributes) 
       : layerSel === 'heat' 
       ? new HeatmapLayer(layerAttributes)
-      : new HexagonLayer(layerAttributes)
-      // overlaySel.includes('Border') 
-      // new GeoJsonLayer({
-      //   id: 'geojson',
-      //   border,
-      //   opacity: 0.8,
-      //   stroked: true,
-      //   filled: true,
-      //   lineWidthMinPixels: 1,
-      //   // extruded: true,
-      //   // wireframe: true,
-      //   // getElevation: f => Math.sqrt(f.properties.valuePerSqm) * 10,
-      //   // getFillColor: f => COLOR_SCALE(f.properties.growth),
-      //   getFillColor: [0, 0, 0, 1],
-      //   getLineColor: [80, 80, 80],
-      //   getLineWidth: 1,
-      //   pickable: true
-      // })
+      : new HexagonLayer(layerAttributes),
+    border && overlaySel.length > 0 &&
+      overlaySel[0].includes('Border') 
+      ? new GeoJsonLayer({
+        id: 'geojson',
+        data: border,
+        opacity: 0.8,
+        stroked: true,
+        filled: false,
+        lineWidthMinPixels: 2,
+        extruded: false,
+        getLineColor: [29, 161, 242],
+        pickable: false
+      }) : null
   ] : [];
 
   
