@@ -10,8 +10,8 @@ import "mapbox-gl/dist/mapbox-gl.css";
 
 import MAP_STYLE from "positron.json";
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-// import { layerSelection, overlaySelection, resaleData, borderData, DEFAULT_LAYER, UILoading, UITxtLoading} from 'data/recoil'
-import { layerSelection, resaleData, DEFAULT_LAYER, UILoading, UITxtLoading} from 'data/recoil'
+// import { layerSelection, overlaySelection, mapOriginalData, borderData, DEFAULT_LAYER, UILoading, UITxtLoading} from 'data/recoil'
+import { layerSelection, mapData, DEFAULT_LAYER, UILoading, UITxtLoading} from 'data/recoil'
 
 const INITIAL_VIEW_STATE = {
   latitude: 1.3451,
@@ -46,7 +46,7 @@ export default function Map({show3D, filterValue, mapStyle = MAP_STYLE}) {
   const [glContext, setGLContext] = useState();
   const deckRef = useRef(null);
   const mapRef = useRef(null);
-  const data = useRecoilValue(resaleData)
+  const data = useRecoilValue(mapData)
   // const border = useRecoilValue(borderData)
   const layerSel = useRecoilValue(layerSelection)
   // const overlaySel = useRecoilValue(overlaySelection)

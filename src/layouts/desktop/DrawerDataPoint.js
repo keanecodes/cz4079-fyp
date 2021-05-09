@@ -3,13 +3,13 @@ import { makeStyles } from '@material-ui/core/styles'
 import TabDrawer from 'components/TabDrawer'
 import { useRecoilValue } from 'recoil'
 import { 
-  resaleData,
+  mapData,
   UIdrawerDataPointOpen 
 } from 'data/recoil'
 
 export default function DrawerDataPoint() {
   const classes = useStyles()
-  const data = useRecoilValue(resaleData)
+  const data = useRecoilValue(mapData)
   
   return (
     <>
@@ -41,7 +41,7 @@ const DataCard = ({data}) => {
       <small className="txt-subtitle">{data.room}</small>
       <p><small className="txt-highlight">S${data.resale_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</small></p>
       <div className="txt-details-container">
-        <span><small>{data.model} Model</small></span>
+        <span><small>{data.flat_model} Model</small></span>
         <span className="dot">·</span>
         <span><small>{data.floor_area_sqm} sqm</small></span>
         <span className="dot">·</span>

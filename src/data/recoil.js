@@ -2,14 +2,29 @@ import { atom } from 'recoil'
 
 export const DEFAULT_LAYER = 'scatter'
 
-export const resaleData = atom({
-  key: 'resaleData',
+export const mapOriginalData = atom({
+  key: 'mapOriginalData',
+  default: null
+})
+
+export const mapData = atom({
+  key: 'mapData',
   default: null
 })
 
 export const borderData = atom({
   key: 'borderData',
   default: null
+})
+
+export const filterAttributes = atom({
+  key: 'filterAttributes',
+  default: {
+    room: [''],
+    resale_price: [0,Infinity],
+    flat_model: ['']
+  }
+
 })
 
 export const modalControls = atom({
@@ -21,9 +36,9 @@ export const modalControls = atom({
         'MRT': false,
         'Schools': false,
         'Parks': false,
-        'Race Ratio': false,
-        'Gender Ratio': false,
-        'Population Density': false,
+        // 'Race Ratio': false,
+        // 'Gender Ratio': false,
+        // 'Population Density': false,
       }
     }, 
     layers: {
