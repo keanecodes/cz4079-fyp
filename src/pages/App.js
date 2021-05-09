@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useSetRecoilState, useRecoilValue } from 'recoil';
 import { mapOriginalData, UITxtLoading } from 'data/recoil';
 import { modalControls, layerSelection } from 'data/recoil';
+import { selectedGeojsonArea } from 'data/recoil';
 
 
 export default function App() {
@@ -21,6 +22,7 @@ export default function App() {
   const data = useRecoilValue(mapOriginalData)
   const modal = useRecoilValue(modalControls)
   const layerSelected = useRecoilValue(layerSelection);
+  const selectedArea = useRecoilValue(selectedGeojsonArea);
 
   const [filter, setFilter] = useState(null)
 
@@ -34,7 +36,10 @@ export default function App() {
           { !isMobile && <>
             <div className="section header"> <FilterBar /> </div>
             <DrawerDataPoint/>
-            {modal.layers.checkbox['Region Border Layer (2D Only)'] && <DrawerStatistics/>}
+            {modal.layers.checkbox['Region Border Layer (2D Only)'] && 
+              selectedArea &&
+              <DrawerStatistics/>
+            }
             </>
           }
           <main className="content">

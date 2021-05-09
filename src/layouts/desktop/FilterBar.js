@@ -1,32 +1,11 @@
 import React from 'react'
-// import Map3DToggle from './Filter3DToggle'
 import LayersPopper from './LayersPopper'
 import { makeStyles } from '@material-ui/core/styles'
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
-import { 
-  mapOriginalData, 
-  mapData,
-  filterAttributes,
-} from 'data/recoil'
+import { useRecoilState} from 'recoil'
+import { filterAttributes } from 'data/recoil'
 
 export default function FilterBar() {
   const classes = useStyles()
-
-  const data = useRecoilValue(mapOriginalData)
-  const filters = useRecoilValue(filterAttributes)
-  const setFilter = useSetRecoilState(mapData)
-  
-  React.useEffect(() => {
-    setFilter(
-      data
-      .filter(d => filters['room'][0] === "" ? Boolean : d['room'] === filters['room'][0])
-      .filter(d => filters['flat_model'][0] === "" ? Boolean : d['flat_model'] === filters['flat_model'][0])
-      .filter(d => filters['resale_price'][0] === 0 ? Boolean : d['resale_price'] >= filters['resale_price'][0] && d['resale_price'] <= filters['resale_price'][1])
-    )
-  // eslint-disable-next-line 
-  }, [filters])
-    
-  
 
   return (
     <div className={classes.filterBarRoot}>

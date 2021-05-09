@@ -23,6 +23,8 @@ export default function InitApp() {
         room: String(row.flat_type),
         flat_model: String(row.flat_model),
         lRemain: String(row.remaining_lease),
+        
+        town: String(row.town),
 
         timestamp: new Date(`${row.month}`).getTime(),
         latitude: Number(row.latitude),

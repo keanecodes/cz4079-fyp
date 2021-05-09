@@ -22,7 +22,8 @@ export const filterAttributes = atom({
   default: {
     room: [''],
     resale_price: [0,Infinity],
-    flat_model: ['']
+    flat_model: [''],
+    selectedArea: [''],
   }
 
 })
@@ -62,6 +63,11 @@ export const layerSelection = atom({
 export const overlaySelection = atom({
   key: 'overlaySelection',
   default: []
+})
+
+export const selectedGeojsonArea = atom({
+  key: 'selectedGeojsonArea',
+  default: null
 })
 
 export const UIdrawerStatOpen = atom({

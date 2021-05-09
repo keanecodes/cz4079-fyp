@@ -13,12 +13,14 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import { 
   layerSelection, 
   modalControls,
   overlaySelection
 } from 'data/recoil'
+import { filterAttributes } from 'data/recoil';
+import { selectedGeojsonArea } from 'data/recoil';
 
 export default function LayersPopper() {
   const classes = useStyles();
@@ -57,6 +59,8 @@ export default function LayersPopper() {
   const [controls, setControls] = useRecoilState(modalControls)
   const [layer, setLayer] = useRecoilState(layerSelection);
   const [overlay, setOverlay] = useRecoilState(overlaySelection);
+  const setSelectedArea = useSetRecoilState(selectedGeojsonArea)
+  const [filters, updateFilter] = useRecoilState(filterAttributes)
   
   //handler for radio groups
   const handleLayer = (e) => setLayer(e.target.value);
@@ -75,11 +79,16 @@ export default function LayersPopper() {
     });
     if (group === 'layers') {
       let olyrs = [...overlay]
+      //add checked layer
       if (e.target.checked) {
         olyrs.push(e.target.name)
         setOverlay(olyrs)
-      } else {
+      } else { //remove checked layer
         const fOLyrs = olyrs.filter(val => val !== e.target.name);
+        if (e.target.name.includes('Border')) {
+          setSelectedArea(null)
+          updateFilter({...filters, selectedArea: ['']})
+        }
         setOverlay(fOLyrs)
       }
     }
