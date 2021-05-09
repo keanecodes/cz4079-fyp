@@ -49,6 +49,16 @@ export const overlaySelection = atom({
   default: []
 })
 
+export const UIdrawerStatOpen = atom({
+  key: 'UIdrawerStatOpen',
+  default: false
+})
+
+export const UIdrawerDataPointOpen = atom({
+  key: 'UIdrawerDataPointOpen',
+  default: false
+})
+
 export const UILoading = atom({
   key: 'UILoading',
   default: true

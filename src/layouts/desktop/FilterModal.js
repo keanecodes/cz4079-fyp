@@ -2,10 +2,20 @@ import React from 'react'
 import { FiMenu } from "react-icons/fi"
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
+import CheckBox from 'components/CheckBox'
+import RadioButton from 'components/Radio'
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Modal from '@material-ui/core/Modal'
 import Backdrop from '@material-ui/core/Backdrop'
 import Fade from '@material-ui/core/Fade'
-import FilterGroup from './FilterModalGroup';
+import { useRecoilState } from 'recoil'
+import { 
+  layerSelection, 
+  modalControls,
+  overlaySelection
+} from 'data/recoil'
 
 export default function FilterModal() {
   const classes = useStyles()
@@ -51,6 +61,73 @@ export default function FilterModal() {
         </Fade>
       </Modal>
     </>
+  )
+}
+
+const FilterGroup = ({title, group, closePanel}) => {
+  const [controls, setControls] = useRecoilState(modalControls)
+  const [layer, setLayer] = useRecoilState(layerSelection);
+  const [overlay, setOverlay] = useRecoilState(overlaySelection);
+  
+  //handler for radio groups
+  const handleLayer = (e) => setLayer(e.target.value);
+
+  //handler for checkboxes
+  const handleChange = (e) => {
+    setControls({ 
+      ...controls,
+      [group]: {
+        ...controls[group],
+        [e.target.type]: {
+          ...controls[group][e.target.type],
+          [e.target.name]: e.target.checked
+        }
+      }
+    });
+    if (group === 'layers') {
+      let olyrs = [...overlay]
+      if (e.target.checked) {
+        olyrs.push(e.target.name)
+        setOverlay(olyrs)
+      } else {
+        const fOLyrs = olyrs.filter(val => val !== e.target.name);
+        setOverlay(fOLyrs)
+      }
+    }
+  };  
+
+  return (
+    <div>
+      <h3>{title}</h3>
+      {controls[group].radio
+       ? <RadioGroup value={layer} name={group}> 
+          {Object.keys(controls[group].radio).map(lbl => {
+            const val = controls[group].radio[lbl]
+            return <FormControlLabel 
+              value={val}
+              key={`filter-modal-radio-${val}`}
+              onChange={handleLayer}
+              onClick={closePanel}
+              control={<RadioButton value={val} />}
+              label={lbl}
+            />
+          })}
+        </RadioGroup>
+        : null
+      }
+      {controls[group].checkbox
+        ? <FormGroup>
+            {Object.keys(controls[group].checkbox).map(lbl => 
+              <FormControlLabel
+                key={`filter-modal-checkbox-${lbl}`}
+                control={<CheckBox checked={controls[group].checkbox[lbl]} onChange={handleChange} name={lbl} />}
+                label={lbl}
+              />
+            )}
+          </FormGroup>
+        : null
+      }
+    </div>
   )
 }
 

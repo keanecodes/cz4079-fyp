@@ -9,7 +9,7 @@ import borders from 'data/borders.geojson'
 import { useSetRecoilState, useRecoilValue } from 'recoil';
 import { resaleData, borderData, UILoading, UITxtLoading } from 'data/recoil'
 
-export default function InitData() {
+export default function InitApp() {
   const loading = useRecoilValue(UILoading)
   const setTxtLoading = useSetRecoilState(UITxtLoading)
   const setResale = useSetRecoilState(resaleData)
@@ -18,6 +18,11 @@ export default function InitData() {
   d3.csv(resales).then(res => {
     if (res) {
       const data = res.map(row => ({
+        address: String(`${row.block} ${row.street_name}`),
+        room: String(row.flat_type),
+        model: String(row.flat_model),
+        lRemain: String(row.remaining_lease),
+
         timestamp: new Date(`${row.month}`).getTime(),
         latitude: Number(row.latitude),
         longitude: Number(row.longitude),
@@ -25,6 +30,7 @@ export default function InitData() {
         floor_area_sqm: Number(row.floor_area_sqm)
       }));
       setTxtLoading("Loading 100,000 Data Points...")
+      
       setResale(data)
 
       d3.json(borders).then(data => {

@@ -1,16 +1,16 @@
-import React, { useState } from 'react'
+import React from 'react'
 import FilterOption from './FilterOption'
 import FilterModal from './FilterModal'
-import Map3DToggle from './Filter3DToggle'
+// import Map3DToggle from './Filter3DToggle'
 // eslint-disable-next-line
 // import ProfileMenu from './ProfileMenu'
 import { makeStyles } from '@material-ui/core/styles'
 
 export default function FilterBar() {
   const classes = useStyles()
-  const [show3D, set3D] = useState(false);
+  // const [show3D, set3D] = React.useState(false);
   
-  const handleChange = e => set3D(e.target.checked)
+  // const handleChange = e => set3D(e.target.checked)
 
   return (
     <div className={classes.root}>
@@ -20,7 +20,7 @@ export default function FilterBar() {
             <FilterOption name="Bedrooms" control="dropdown"/>
             <FilterOption name="Prices" control="dropdown"/>
             <FilterModal/>
-            <Map3DToggle show3D={show3D} handleChange={handleChange}/>
+            {/* <Map3DToggle show3D={show3D} handleChange={handleChange}/> */}
         </div>
         {/* <ProfileMenu/> */}
     </div>
@@ -42,6 +42,6 @@ const useStyles = makeStyles(() => ({
   filters: {
     height: 'auto',
     display: 'grid',
-    gridTemplateColumns: 'repeat(3, 1fr) minmax(2rem,5%) minmax(3rem, 12%)',
+    gridTemplateColumns: 'repeat(3, 1fr) minmax(2rem,5%)',
   }
 }))

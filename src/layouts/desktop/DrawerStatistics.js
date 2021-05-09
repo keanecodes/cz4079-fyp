@@ -1,11 +1,13 @@
 import React from 'react'
 import TabDrawer from 'components/TabDrawer'
+import { UIdrawerStatOpen } from 'data/recoil'
 
 export default function DrawerStatistics() {
 
   return (
     <>
       <TabDrawer
+        state={UIdrawerStatOpen}
         width='25vw'
         anchor='right'
         triggerTagLocation='end'

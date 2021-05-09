@@ -7,7 +7,7 @@ import { Router, Route, Switch, Redirect } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import { RecoilRoot } from 'recoil'
 
-import InitData from 'pages/InitData'
+import InitApp from 'pages/InitApp'
 import './index.css';
 
 const hist = createBrowserHistory();
@@ -20,7 +20,7 @@ render(
           <Route
             path="/"
             render={props => {
-              return <InitData {...props}/>;
+              return <InitApp {...props}/>;
             }}
           />
           <Route render={() => <Redirect to="/" />} />

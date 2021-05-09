@@ -1,12 +1,20 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import TabDrawer from 'components/TabDrawer'
+import { useRecoilValue } from 'recoil'
+import { 
+  resaleData,
+  UIdrawerDataPointOpen 
+} from 'data/recoil'
 
 export default function DrawerDataPoint() {
   const classes = useStyles()
+  const data = useRecoilValue(resaleData)
+  
   return (
     <>
       <TabDrawer
+        state={UIdrawerDataPointOpen}
         width='20vw'
         triggerTagLocation='start'
         triggerName='Data Points'
@@ -17,26 +25,27 @@ export default function DrawerDataPoint() {
       >
         <SortBar/>
         <div className={classes.dataCardContainer}>
-          {[...Array(10)].map(i => <DataCard key={`datapoint-${i}`}/>)}
+          {data.slice(0,50).map((d,i) => <DataCard key={`datapoint-${i}`} data={d}/>)}
         </div>
       </TabDrawer>
     </>
   )
 }
 
-const DataCard = () => {
+const DataCard = ({data}) => {
   const classes = useStyles()
+  
   return (
     <div className={classes.dataCard}>
-      <p className="txt-title">154 Serangoon NTH AVE 1</p>
-      <small className="txt-subtitle">3-room</small>
-      <p><small className="txt-highlight">S$348,000</small></p>
+      <p className="txt-title">{data.address}</p>
+      <small className="txt-subtitle">{data.room}</small>
+      <p><small className="txt-highlight">S${data.resale_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</small></p>
       <div className="txt-details-container">
-        <span><small>New Generation Model</small></span>
+        <span><small>{data.model} Model</small></span>
         <span className="dot">·</span>
-        <span><small>40sqm</small></span>
+        <span><small>{data.floor_area_sqm} sqm</small></span>
         <span className="dot">·</span>
-        <span><small>40 years and 04 months Remaining</small></span>
+        <span><small>{data.lRemain} remaining </small></span>
       </div>
     </div>
   )
@@ -59,7 +68,7 @@ const style = {
   trigger: {
     transform: 'rotate(90deg)',
     right: '-12.5rem',
-    top: 'calc(10rem)', //TODO: find heuristic calculation 
+    top: 'calc(10rem)', //TODO: find heuristic calc
     marginTop: '-1rem',
   },
   separator: {
@@ -133,7 +142,7 @@ const useStyles = makeStyles(() => ({
       fontWeight: 500,
     },
     '& .txt-details-container': {
-      fontSize: '0.6rem',
+      fontSize: '0.7rem',
       marginTop: '0.3rem'
     },
     '& .dot': {

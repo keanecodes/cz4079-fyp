@@ -1,8 +1,10 @@
 import React from 'react'
 import Drawer from '@material-ui/core/Drawer'
 import { makeStyles } from '@material-ui/core/styles'
+import { useRecoilState } from 'recoil'
 
 export default function TabDrawer({
+  state,
   width, 
   anchor,
   triggerTagLocation,
@@ -13,8 +15,6 @@ export default function TabDrawer({
   styleTrigger,
   children
 }) {
-  const [open, setOpen] = React.useState(true)
-  const toggleDrawerOpen = () => setOpen(!open)
   const useStyles = makeStyles(() => ({
     drawer: {
       width: width,
@@ -63,7 +63,8 @@ export default function TabDrawer({
       ...styleTrigger
     }
   }))
-  
+  const [open, setOpen] = useRecoilState(state);
+  const toggleDrawerOpen = () => setOpen(!open)
   const classes = useStyles()
 
   return (

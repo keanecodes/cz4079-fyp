@@ -10,6 +10,7 @@ import { useMediaQuery } from 'react-responsive'
 import { makeStyles } from '@material-ui/core/styles';
 import { useSetRecoilState, useRecoilValue } from 'recoil';
 import { resaleData, UITxtLoading } from 'data/recoil';
+import { modalControls } from 'data/recoil';
 
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
   const classes = useStyles()
   const isMobile = useMediaQuery({ maxWidth: 767, orientation: "portrait"})
   const data = useRecoilValue(resaleData)
+  const modal = useRecoilValue(modalControls)
 
   const [filter, setFilter] = useState(null)
 
@@ -31,7 +33,7 @@ export default function App() {
           { !isMobile && <>
             <div className="section header"> <FilterBar /> </div>
             <DrawerDataPoint/>
-            <DrawerStatistics/>
+            {modal.layers.checkbox['Region Border Layer (2D Only)'] && <DrawerStatistics/>}
             </>
           }
           <main className="content">
