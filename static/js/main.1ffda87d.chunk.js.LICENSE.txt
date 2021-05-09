@@ -1,0 +1,1 @@
+//! Initialize an empty deck.gl layer to prevent flashing
