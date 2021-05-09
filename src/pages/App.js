@@ -10,7 +10,7 @@ import { useMediaQuery } from 'react-responsive'
 import { makeStyles } from '@material-ui/core/styles';
 import { useSetRecoilState, useRecoilValue } from 'recoil';
 import { mapOriginalData, UITxtLoading } from 'data/recoil';
-import { modalControls } from 'data/recoil';
+import { modalControls, layerSelection } from 'data/recoil';
 
 
 export default function App() {
@@ -20,6 +20,7 @@ export default function App() {
   const isMobile = useMediaQuery({ maxWidth: 767, orientation: "portrait"})
   const data = useRecoilValue(mapOriginalData)
   const modal = useRecoilValue(modalControls)
+  const layerSelected = useRecoilValue(layerSelection);
 
   const [filter, setFilter] = useState(null)
 
@@ -40,16 +41,18 @@ export default function App() {
             <MapboxGLMap filterValue={filterValue}/>
             {isMobile && <FilterPills/>}
           </main>
-          <footer className="footer" >
-            { isMobile ? <TabBar/> : (timeRange && (
-              <Timeline 
-                min={timeRange[0]}
-                max={timeRange[1]}
-                value={filterValue}
-                onChange={setFilter}
-              />
-            ))}
-          </footer>
+          {layerSelected !== 'hex' && 
+            <footer className="footer" >
+              { isMobile ? <TabBar/> : (timeRange && 
+                <Timeline 
+                  min={timeRange[0]}
+                  max={timeRange[1]}
+                  value={filterValue}
+                  onChange={setFilter}
+                />
+              )}
+            </footer>
+          }
         </div>
       )}
     </>

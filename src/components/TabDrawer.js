@@ -1,7 +1,8 @@
 import React from 'react'
 import Drawer from '@material-ui/core/Drawer'
 import { makeStyles } from '@material-ui/core/styles'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
+import { layerSelection } from 'data/recoil'
 
 export default function TabDrawer({
   state,
@@ -15,6 +16,9 @@ export default function TabDrawer({
   styleTrigger,
   children
 }) {
+  const layerSelected = useRecoilValue(layerSelection)
+  const fullHeight = layerSelected !== 'hex' 
+
   const useStyles = makeStyles(() => ({
     drawer: {
       width: width,
@@ -26,7 +30,7 @@ export default function TabDrawer({
     drawerPaper: {
       top: '4rem',
       width: width,
-      height: `calc(100% - 8rem)`,
+      height: `calc(100% - 8rem ${fullHeight ? '- 2rem': '+ 2rem'})`,
       overflowY: 'visible',
       background: 'var(--dark-background)',
       padding: '1rem',
@@ -34,6 +38,7 @@ export default function TabDrawer({
     },
     drawerContainer: {
       overflow: 'visible',
+      height: '100%',
     },
     separator: {
       width: '100%',

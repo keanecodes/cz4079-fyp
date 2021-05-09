@@ -112,7 +112,7 @@ const useStyles = makeStyles(() => ({
     content: ' > ',
   },
   dataCardContainer: {
-    height: 'calc(100vh - 15rem)',
+    height: '90%',
     overflowY: 'scroll',
     marginRight: '-0.2rem',
     paddingRight: '0.3rem'
