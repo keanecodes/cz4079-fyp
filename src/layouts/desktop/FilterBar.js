@@ -1,8 +1,6 @@
 import React from 'react'
-import FilterModal from './FilterModal'
 // import Map3DToggle from './Filter3DToggle'
-// eslint-disable-next-line
-// import ProfileMenu from './ProfileMenu'
+import LayersPopper from './LayersPopper'
 import { makeStyles } from '@material-ui/core/styles'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { 
@@ -37,7 +35,7 @@ export default function FilterBar() {
         <FilterOption name="Model" control="dropdown"/>
         <FilterOption name="Bedrooms" control="dropdown"/>
         <FilterOption name="Prices" control="dropdown"/>
-        <FilterModal/>
+        <LayersPopper/>
       </div>
     </div>
   )
@@ -58,7 +56,7 @@ const FilterOption = ({name, control}) => {
       {control === 'dropdown' && 
         name === 'Model' 
         ? (<select name='flat_model' onChange={updateHandler}>
-          <option value="" selected>All</option>
+          <option value="">All</option>
           <option>Improved</option>
           <option>New Generation</option>
           <option>Standard</option>
@@ -82,7 +80,7 @@ const FilterOption = ({name, control}) => {
         </select>) 
         : name === 'Bedrooms' 
         ? (<select name='room' onChange={updateHandler}>
-          <option value="" selected>All</option>
+          <option value="">All</option>
           <option value="1 ROOM">1 Rooms</option>
           <option value="2 ROOM">2 Rooms</option>
           <option value="3 ROOM">3 Rooms</option>
@@ -92,7 +90,7 @@ const FilterOption = ({name, control}) => {
         </select>) 
         : name === 'Prices' 
         && (<select name='resale_price' onChange={updateHandler}>
-          <option value={[0, Infinity]} selected>All</option>
+          <option value={[0, Infinity]}>All</option>
           <option value={[150000, 250000]}>150K to 250K</option>
           <option value={[250000, 500000]}>250K to 500K</option>
           <option value={[500000, Infinity]}>More than 500K</option>
