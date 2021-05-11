@@ -4,8 +4,8 @@ import BackDrop from 'components/BackDrop'
 
 // Data 
 import * as d3 from 'd3-fetch'
-import resales from 'data/resale1990_2020onwards.csv'
-import borders from 'data/borders.geojson'
+// import resales from 'data/resale1990_2020onwards.csv'
+// import borders from 'data/borders.geojson'
 import { useSetRecoilState, useRecoilValue } from 'recoil';
 import { mapOriginalData, mapData, borderData, UILoading, UITxtLoading } from 'data/recoil'
 
@@ -16,7 +16,7 @@ export default function InitApp() {
   const setMapData = useSetRecoilState(mapData)
   const setBorder = useSetRecoilState(borderData)
 
-  d3.csv(resales).then(res => {
+  d3.csv(`https://raw.githubusercontent.com/keanecodes/fyp/main/src/data/resale1990_2020onwards.csv?token=${process.env.REACT_APP_RESALE_CSV_ACCESS_TOKEN}`).then(res => {
     if (res) {
       const data = res.map(row => ({
         address: String(`${row.block} ${row.street_name}`),
@@ -37,7 +37,7 @@ export default function InitApp() {
       setMapData(data)
       setOriginal(data)
 
-      d3.json(borders).then(data => {
+      d3.json(`https://raw.githubusercontent.com/keanecodes/fyp/main/src/data/borders.geojson?token=${process.env.REACT_APP_BORDER_GEOJSON_ACCESS_TOKEN}`).then(data => {
         setBorder(data)
         setTxtLoading("90%")
       });
