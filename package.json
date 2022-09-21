@@ -2,7 +2,7 @@
   "name": "fyp-1",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://keanecodes.github.io/fyp/",
+  "homepage": "https://keanecodes.github.io/cz4079-fyp/",
   "dependencies": {
     "@loaders.gl/core": "^2.3.13",
     "@material-ui/core": "^4.11.3",
@@ -22,7 +22,7 @@
     "react-responsive": "^8.2.0",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
+    "react-scripts": "^4.0.3",
     "recoil": "^0.2.0"
   },
   "scripts": {
@@ -52,6 +52,6 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^3.1.0"
+    "gh-pages": "^3.2.3"
   }
 }
